@@ -1,0 +1,160 @@
+package pilas_examen2;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+public class Pilas_Examen2 {
+    
+    int[][] libros = new int[10][4]; 
+    DefaultTableModel modeloTabla;
+    JTable tabla;
+    JScrollPane scrollPane;
+    String cadena = " ";
+    int maximo = libros.length - 1;
+
+    public Pilas_Examen2() {
+        iniciarTabla();
+    }
+
+    public void iniciarTabla() {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Número de Libro");
+        modeloTabla.addColumn("Año de Edición");
+        modeloTabla.addColumn("Número de Estante");
+        modeloTabla.addColumn("Cantidad de Ejemplares");
+        tabla = new JTable(modeloTabla);
+        scrollPane = new JScrollPane(tabla);
+        for (int i = 0; i < libros.length; i++) {
+            modeloTabla.addRow(new Object[]{"", "", "", ""});  
+        }
+        mostrarTabla();
+    }
+
+    public void mostrarTabla() {
+        JOptionPane.showMessageDialog(null, scrollPane); // Mostrar la tabla en un cuadro de diálogo
+    }
+
+    public void insertar() {
+        int fila = buscarFilaVacia(); // Buscar fila vacía en el arreglo
+        if (fila == -1) {
+            cadena = "La lista de libros está llena";
+            JOptionPane.showMessageDialog(null, cadena);
+        } else {
+            for (int i = 0; i < libros[fila].length; i++) {
+                cadena = JOptionPane.showInputDialog("Ingrese el número de libro, año de edición, número de estante y cantidad de ejemplares separados por espacios: ");
+                String[] datos = cadena.split(" ");
+                for (int j = 0; j < datos.length; j++) {
+                    libros[fila][j] = Integer.parseInt(datos[j]); // Asignar valores a la fila correspondiente
+                    modeloTabla.setValueAt(datos[j], fila, j); // Actualizar los valores en la tabla
+                }
+            }
+        }
+    }
+
+    public void eliminar() {
+        int numeroLibro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de libro a eliminar: "));
+        boolean encontrado = false;
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i][0] == numeroLibro) {
+                for (int j = 0; j < libros[i].length; j++) {
+                    libros[i][j] = 0; // Eliminar libro
+                    modeloTabla.setValueAt("", i, j); // Actualizar la tabla
+                }
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "El libro no se encontró en la lista.");
+        }
+    }
+
+    public void modificarEstante() {
+        int numeroLibro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de libro a modificar: "));
+        int nuevoEstante = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de estante: "));
+        boolean encontrado = false;
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i][0] == numeroLibro) {
+                libros[i][2] = nuevoEstante; // Modificar número de estante
+                modeloTabla.setValueAt(nuevoEstante, i, 2); // Actualizar la tabla
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "El libro no se encontró en la lista.");
+        }
+    }
+
+    public void buscar() {
+        int numeroLibro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de libro a buscar: "));
+        boolean encontrado = false;
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i][0] == numeroLibro) {
+                cadena = "Número de libro: " + libros[i][0] + "\nAño de edición: " + libros[i][1] + "\nNúmero de estante: " + libros[i][2] + "\nCantidad de ejemplares: " + libros[i][3];
+                JOptionPane.showMessageDialog(null, cadena);
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "El libro no se encontró en la lista.");
+        }
+    }
+
+    public void vaciar() {
+        for (int i = 0; i < libros.length; i++) {
+            for (int j = 0; j < libros[i].length; j++) {
+                libros[i][j] = 0; // Vaciar todo el arreglo
+                modeloTabla.setValueAt("", i, j); // Actualizar la tabla
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Se han eliminado todos los libros de la lista.");
+    }
+
+    public int buscarFilaVacia() {
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i][0] == 0) {
+                return i; // Devolver la primera fila vacía encontrada
+            }
+        }
+        return -1; // Si no se encuentra ninguna fila vacía
+    }
+
+    public static void main(String[] args) {
+        int opcion = 10;
+        Pilas_Examen2 objeto = new Pilas_Examen2();
+        do {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(null,
+                    "1. Insertar Libro\n" +
+                            "2. Eliminar Libro\n" +
+                            "3. Modificar Estante\n" +
+                            "4. Buscar Libro\n" +
+                            "5. Vaciar Lista\n" +
+                            "6. Mostrar Lista\n" +
+                            "7. Salir \n" +
+                            "Ingrese la opcion [1-7]", JOptionPane.QUESTION_MESSAGE));
+            switch (opcion) {
+                case 1:
+                    objeto.insertar();
+                    break;
+                case 2:
+                    objeto.eliminar();
+                    break;
+                case 3:
+                    objeto.modificarEstante();
+                    break;
+                case 4:
+                    objeto.buscar();
+                    break;
+                case 5:
+                    objeto.vaciar();
+                    break;
+                case 6:
+                    objeto.mostrarTabla();
+                    break;
+                case 7:
+                    System.exit(0);
+                default:
+                    JOptionPane.showMessageDialog(null, "Ingrese una opcion valida\n" + JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        while (true);
+    }
+}
