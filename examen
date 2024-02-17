@@ -1,8 +1,16 @@
-package pilas_examen2;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pilas_examen;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-public class Pilas_Examen2 {
+/**
+ *
+ * @author Admin
+ */
+public class Pilas_examen {
     
     int[][] libros = new int[10][4]; 
     DefaultTableModel modeloTabla;
@@ -11,7 +19,7 @@ public class Pilas_Examen2 {
     String cadena = " ";
     int maximo = libros.length - 1;
 
-    public Pilas_Examen2() {
+    public Pilas_examen() {
         iniciarTabla();
     }
 
@@ -39,14 +47,13 @@ public class Pilas_Examen2 {
             cadena = "La lista de libros está llena";
             JOptionPane.showMessageDialog(null, cadena);
         } else {
-            for (int i = 0; i < libros[fila].length; i++) {
-                cadena = JOptionPane.showInputDialog("Ingrese el número de libro, año de edición, número de estante y cantidad de ejemplares separados por espacios: ");
-                String[] datos = cadena.split(" ");
-                for (int j = 0; j < datos.length; j++) {
-                    libros[fila][j] = Integer.parseInt(datos[j]); // Asignar valores a la fila correspondiente
-                    modeloTabla.setValueAt(datos[j], fila, j); // Actualizar los valores en la tabla
-                }
+            cadena = JOptionPane.showInputDialog("Ingrese el número de libro, año de edición, número de estante y cantidad de ejemplares separados por espacios: ");
+            String[] datos = cadena.split(" ");
+            for (int j = 0; j < datos.length; j++) {
+                libros[fila][j] = Integer.parseInt(datos[j]); // Asignar valores a la fila correspondiente
+                modeloTabla.setValueAt(datos[j], fila, j); // Actualizar los valores en la tabla
             }
+            
         }
     }
 
@@ -119,7 +126,7 @@ public class Pilas_Examen2 {
 
     public static void main(String[] args) {
         int opcion = 10;
-        Pilas_Examen2 objeto = new Pilas_Examen2();
+        Pilas_examen objeto = new Pilas_examen();
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null,
                     "1. Insertar Libro\n" +
@@ -156,5 +163,5 @@ public class Pilas_Examen2 {
             }
         }
         while (true);
-    }
+    }    
 }
