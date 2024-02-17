@@ -27,7 +27,16 @@ public class Pilas_examen {
         tabla = new JTable(modeloTabla);
         scrollPane = new JScrollPane(tabla);
         for (int i = 0; i < libros.length; i++) {
-            modeloTabla.addRow(new Object[]{"", "", "", ""});  
+            if(i<=6){
+                int a,s,d,f;
+                a=(int)(Math.random()*10+1);
+                s=(int)(Math.random()*(2024-1900)+1900);
+                d=(int)(Math.random()*100+1);        
+                f=(int)(Math.random()*5+1);
+                modeloTabla.addRow(new Object[]{""+a+"", ""+s+"", ""+d+"", ""+f+""});  
+            }else{
+                modeloTabla.addRow(new Object[]{"", "", "", ""});  
+            }
         }
         mostrarTabla();
     }
