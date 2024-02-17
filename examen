@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pilas_examen;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +34,15 @@ public class Pilas_examen {
 
     public void mostrarTabla() {
         JOptionPane.showMessageDialog(null, scrollPane); // Mostrar la tabla en un cuadro de diálogo
+        for (int i = 0; i < libros.length; i++) {
+            for (int j = 0; j < libros[0].length; j++) {
+                if(!(String.valueOf(modeloTabla.getValueAt(i,j)).equals(""))){
+                    libros[i][j]=Integer.parseInt(String.valueOf(modeloTabla.getValueAt(i,j)));
+                }
+                
+            }
+        }
+        
     }
 
     public void insertar() {
@@ -58,19 +62,35 @@ public class Pilas_examen {
     }
 
     public void eliminar() {
-        int numeroLibro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de libro a eliminar: "));
+        /*int numeroLibro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de libro a eliminar: "));
         boolean encontrado = false;
         for (int i = 0; i < libros.length; i++) {
             if (libros[i][0] == numeroLibro) {
                 for (int j = 0; j < libros[i].length; j++) {
-                    libros[i][j] = 0; // Eliminar libro
-                    modeloTabla.setValueAt("", i, j); // Actualizar la tabla
+                    
                 }
                 encontrado = true;
             }
         }
         if (!encontrado) {
             JOptionPane.showMessageDialog(null, "El libro no se encontró en la lista.");
+        }*/
+        if(libros[0][0]==0){
+            JOptionPane.showMessageDialog(null, "No hay datos que eliminar");
+        }else{
+            for (int i = libros.length-1; i >= 0;  i--) {
+                if(libros[i][0]!=0){
+                    cadena = "Número de libro: " + libros[i][0] + "\nAño de edición: " + libros[i][1] + "\nNúmero de estante: " + libros[i][2] + "\nCantidad de ejemplares: " + libros[i][3];
+                    JOptionPane.showMessageDialog(null, cadena);
+                    for (int j = libros[0].length-1; j >=0;j--) {
+                    
+                        libros[i][j] = 0; // Eliminar libro
+                        modeloTabla.setValueAt("", i, j); // Actualizar la tabla
+                    }
+                    break;
+                }
+            
+            }
         }
     }
 
@@ -106,12 +126,9 @@ public class Pilas_examen {
     }
 
     public void vaciar() {
-        for (int i = 0; i < libros.length; i++) {
-            for (int j = 0; j < libros[i].length; j++) {
-                libros[i][j] = 0; // Vaciar todo el arreglo
-                modeloTabla.setValueAt("", i, j); // Actualizar la tabla
-            }
-        }
+        do{
+            eliminar();
+        }while(libros[0][0]!=0);
         JOptionPane.showMessageDialog(null, "Se han eliminado todos los libros de la lista.");
     }
 
